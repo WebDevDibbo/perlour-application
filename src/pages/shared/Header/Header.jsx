@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../../assets/logo.png'
+import { AuthContext } from '../../../Contexts/AuthProvider';
 import './Header.css'
 
 const Header = () => {
+  const {user,logOut} = useContext(AuthContext);
+
+  const handleLogout = () => {
+   logOut()
+   .then()
+   .catch((error) => console.error(error));
+  }
+
+
+
     return (
       <div className="navbar h-24 py-0 md:px-16 bg-base-100">
   <div className="navbar-start">
@@ -16,6 +27,7 @@ const Header = () => {
         <li><Link className='font-semibold'>Our Portfolio</Link> </li>
         <li><Link className='font-semibold'>Our Team</Link></li>
         <li><Link className='font-semibold'>Contact Us</Link></li>
+        {user?.uid ? <li><Link to='/dashboard' className='font-semibold'>Dashboard</Link></li>: null  }
       </ul>
     </div>
     <Link><img className='h-12' src={logo} alt="logo" /></Link>
@@ -26,10 +38,11 @@ const Header = () => {
       <li><Link className='font-semibold'>Our Portfolio</Link> </li>
       <li><Link className='font-semibold'>Our Team</Link></li>
       <li><Link className='font-semibold'>Contact Us</Link></li>
+      {user?.uid ? <li><Link to='/dashboard' className='font-semibold'>Dashboard</Link></li>: null  }
     </ul>
   </div>
   <div className="navbar-end">
-    <Link to='/login' className="font-medium login-btn border-0 px-10 py-3">Login</Link>
+    {user?.uid ? <Link className="font-medium login-btn border-0 px-10 py-3" onClick={handleLogout}>Logout</Link> : <Link to='/login' className="font-medium login-btn border-0 px-10 py-3">Login</Link>}
   </div>
 </div>
     )

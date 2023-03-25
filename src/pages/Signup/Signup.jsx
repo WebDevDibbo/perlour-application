@@ -1,102 +1,112 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { GoogleAuthProvider } from 'firebase/auth';
+import React, { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Contexts/AuthProvider';
 import './Signup.css'
-import { FaFacebook } from "react-icons/fa";
+
+
 
 
 const Signup = () => {
+  const { register,handleSubmit,formState:{errors} } = useForm("");
+  const [signUpError,setSignUpError] = useState('');
+  const {createUser,updateUser,googleLogin} = useContext(AuthContext);
+  const navigate = useNavigate();
+  const googleProvider = new GoogleAuthProvider();
+
+
+
+const handleSignUp =(data) => {
+
+  console.log(data);
+  setSignUpError('')
+  createUser(data.email, data.password)
+  .then(result => {
+    const user = result.user;
+    console.log(user);
+    toast.success('User created successfully');
+    navigate('/')
+    const userInfo = {displayName : data.name}
+    updateUser(userInfo)
+    .then(()=> {})
+    .catch(err => console.log(err))
+  })
+  .catch(err => {
+    console.log(err)
+   setSignUpError(err.message)
+  })
+};
+
+const handleGoogleLogin = () =>{
+  googleLogin(googleProvider)
+  .then(result =>{
+    const user = result.user;
+    console.log(user);
+    toast.success('User created successfully');
+    navigate('/')
+  })
+  .catch(err => console.error(err.message))
+}
+  
+
+
     return (
-    <div className='hero '>
-       <div className="card flex-shrink-0 w-full max-w-md shadow-2xl pt-8 mb-4">
-          <h1 className="text-4xl font-bold mt-3 pl-8 text-left">Create an account</h1>
-          <form className="card-body">
-            <div className="form-control mb-4">
-             <label htmlFor='fname'>
-             </label>
-              <input
-                name="fname"
-                type="text"
-                placeholder="First Name"
-                id='fname'
-                required
-                className=''
-              />
-            </div>
-            <div className="form-control mb-4">
-            <label htmlFor='lname'>
+      <div className="h-[600px] flex justify-center items-center bg-gray-200">
+      <div className="w-96 px-7 rounded-lg shadow-2xl ">
+        <h2 className="text-3xl text-center font-bold text-pink-600  my-6">Sign Up</h2>
+        <form onSubmit={handleSubmit(handleSignUp)}>
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Name</span>
             </label>
-              <input
-                name="lname"
-                type="text"
-                placeholder="Last Name"
-                id='lname'
-                required
-              />
-            </div>
-            <div className="form-control mb-4">
-            <label htmlFor='email'>
+            <input type="text"  {...register("name",{required:"name is required"})} className="input input-bordered" />
+            {errors.name && <p className="text-red-600">{errors.name.message}</p>}
+
+          </div>
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Email</span>
             </label>
-              <input
-                name="email"
-                type="email"
-                id='email'
-                placeholder="Email"
-                required
-              />
-              
-            </div>
-            <div className="form-control mb-4">
-            <label htmlFor='password'>
+            <input type="email" {...register("email",{required:'email is required'})} className="input input-bordered" />
+            {errors.email && <p className="text-red-600">{errors.email.message}</p>}
+
+          </div>
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Password</span>
             </label>
-              <input
-                name="password"
-                type="password"
-                id='password'
-                placeholder="Password"
-                required
-              />
-              
-            </div>
-            <div className="form-control mb-4">
-            <label htmlFor='cpassword'>
-            </label>
-              <input
-                name="cpassword"
-                type="password"
-                id='cpassword'
-                placeholder="Confirm Password"
-                required
-              />
-              
-            </div>
-            <div className="form-control">
-              <input className="btn bg-pink-600 border-0 hover:bg-pink-700" type="submit" value="Create An Account" />
-            </div>
-            <p className="text-center mt-4">
-            Already have an account?
-            <Link to="/login" className="text-pink-600 pl-2 font-semibold" >
-              login
-            </Link>
-          </p>
-          <div className="text-center mb-1 divider">or</div>
-          </form>
-        
-        <div className='mx-7'>
+            <input type="password" {...register("password",{required:"Password is required",
+        minLength:{value:6,message:"Password must be at least 6 characters"},
+        })} className="input input-bordered" />
+            {errors.password && <p className="text-red-600">{errors.password.message}</p>}
+          </div>
+
+          <input
+            type="submit"
+            className="btn bg-pink-500 border-none hover:bg-pink-600 w-full text-white mt-5"
+            value="signup"
+          />
+          <div>
+            {signUpError && <p className="text-red-600">{signUpError}</p>}
+          </div>
+        </form>
+        <p className="my-4">
+          Already have an Account??{" "}
+          <Link to="/login" className="text-secondary">
+            Please Login
+          </Link>
+        </p>
+        <div className="text-center mb-4 divider">OR</div>
         <input
           type="submit"
-          className="btn mb-2 w-full bg-pink-600 hover:bg-pink-700  border-none"
-          value="Continue With Facebook"
+          className="btn bg-pink-600 hover:bg-pink-700 border-none mb-6 w-full"
+          value="CONTINUE WITH GOOGLE"
+          onClick={handleGoogleLogin}
         />
-        <input
-          type="submit"
-          className="btn w-full bg-pink-600 hover:bg-pink-700  border-none"
-          value="Continue With Google"
-        />
-        </div>
-        
-          
-        </div>
-        </div>
+      </div>
+    </div>
     );
 };
 
