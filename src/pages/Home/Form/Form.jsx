@@ -18,7 +18,7 @@ const Form = () => {
        <textarea  className="textarea w-4/5 lg:w-full  h-100" placeholder="Message"></textarea>
        </div>
        <div className='mt-7 text-center'>
-       <button className="btn login-btn border-0 px-10 py-3 ">Explore Now</button>
+       <button className="btn login-btn border-0 px-10 py-3 ">Send Message</button>
        </div>
 
         </form>

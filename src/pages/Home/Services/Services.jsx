@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import anti from '../../../assets/icons/anti.png'
 import hair from '../../../assets/icons/hair.png'
 import skin from '../../../assets/icons/skin.png'
@@ -38,7 +39,7 @@ const Services = () => {
             }
         </div>
        <div className='mt-[50px] mb-[150px] text-center'>
-       <button className="btn login-btn border-0 px-10 py-3 ">Explore Now</button>
+       <Link to='/appointment' className="btn login-btn border-0 px-10 py-3 ">Explore Now</Link>
        </div>
         </div>
     );
