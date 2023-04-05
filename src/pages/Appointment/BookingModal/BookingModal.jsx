@@ -1,8 +1,12 @@
 import { format } from "date-fns";
-import React from "react";
+import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const BookingModal = ({ treatment, selectedDate,setTreatment,refetch }) => {
+
+  const {user} = useContext(AuthContext);
+
   const { name,slots } = treatment;
   const date = format(selectedDate, "PP");
   
@@ -23,7 +27,7 @@ const BookingModal = ({ treatment, selectedDate,setTreatment,refetch }) => {
 
 
     }
-    fetch('http://localhost:5000/bookings',{
+    fetch('https://perlour-app-server.vercel.app/bookings',{
       method: 'POST',
       headers : {'content-type': 'application/json'},
       body : JSON.stringify(customerBooking)
@@ -71,6 +75,8 @@ const BookingModal = ({ treatment, selectedDate,setTreatment,refetch }) => {
             <input
               name="name"
               type="text"
+              defaultValue={user?.displayName}
+              disabled
               placeholder="Your Name"
               className="input w-full"
               autoComplete="off"
@@ -84,6 +90,8 @@ const BookingModal = ({ treatment, selectedDate,setTreatment,refetch }) => {
               autoComplete="off"
             />
             <input
+            defaultValue={user?.email}  
+           disabled         
               name="email"
               type="email"
               placeholder="Email"

@@ -1,0 +1,14 @@
+.adminbtn{
+    transition: 0.3s linear;
+}
+.adminbtn:hover{
+  background-color: green;
+  color: white;
+}
+.deletebtn{
+    transition: 0.3s linear;
+}
+.deletebtn:hover{
+    background-color: red;
+    color: white;
+  }

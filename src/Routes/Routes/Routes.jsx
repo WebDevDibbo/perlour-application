@@ -7,11 +7,15 @@ import Home from "../../pages/Home/Home/Home";
 import Login from "../../pages/Login/Login";
 import Signup from "../../pages/Signup/Signup";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import MyOrders from "../../pages/Dashboard/MyOrders/MyOrders";
+import DisplayError from "../../pages/shared/DisplayError/DisplayError";
+import AllUsers from "../../pages/Dashboard/AllUsers/AllUsers";
 
 export const router = createBrowserRouter([
     {
         path:'/',
         element:<Main></Main>,
+        errorElement:<DisplayError/>,
         children:[
             {
                 path:'/',
@@ -34,11 +38,16 @@ export const router = createBrowserRouter([
     {
         path:'/dashboard',
         element:<PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+        errorElement:<DisplayError/>,
         children:[
             {
                 path:'/dashboard',
-                element: <Dashboard></Dashboard>
-            }
+                element: <MyOrders></MyOrders>
+            },
+            {
+                path:'/dashboard/allusers',
+                element: <AllUsers></AllUsers>
+            },
         ]
     }
 ])
