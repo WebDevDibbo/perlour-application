@@ -45,7 +45,7 @@ const MyOrders = () => {
           </thead>
           <tbody>
             
-            {
+            { bookings?.length &&
                 bookings.map((booking,i) => <tr style={styles.txtColors} key={i}>
               
               <td>{booking.customer}</td>

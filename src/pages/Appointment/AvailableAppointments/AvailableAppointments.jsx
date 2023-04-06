@@ -14,9 +14,9 @@ const AvailableAppointments = ({selectedDate}) => {
         queryFn : () => fetch(`https://perlour-app-server.vercel.app/appointmentOptions?date=${date}`)
         .then(res => res.json()) 
     })
-    // if(isLoading){
-    //     return <Loading></Loading>
-    // }
+    if(isLoading){
+        return <Loading></Loading>
+    }
 
     return (
         <section className='my-16'>

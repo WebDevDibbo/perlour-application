@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 import Header from "../../pages/shared/Header/Header";
 import { FiHardDrive } from "react-icons/fi";
 import { BsCart2 } from "react-icons/bs";
 import { TbMessageDots} from "react-icons/tb";
+import useAdmin from "../../hooks/useAdmin";
+import { AuthContext } from "../../Contexts/AuthProvider";
 
 const DashboardLayout = () => {
+  const {user} = useContext(AuthContext)
+  const [isAdmin] = useAdmin(user?.email)
     const styles = {
         primary:{
             color:"#F63E7B"
@@ -32,7 +36,7 @@ const DashboardLayout = () => {
             <Link className="text-base" to='/dashboard'><FiHardDrive></FiHardDrive> Order list</Link>
             </li>
             <li className="pl-3">
-            <Link className="text-base" to='/dashboard/allusers'><FiHardDrive></FiHardDrive> All Users</Link>
+            {isAdmin && <Link className="text-base" to='/dashboard/allusers'><FiHardDrive></FiHardDrive> All Users</Link>}
             </li>
             <li className="pl-3">
             <Link className="text-base" to='/'> <TbMessageDots></TbMessageDots>Review</Link>

@@ -10,6 +10,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import MyOrders from "../../pages/Dashboard/MyOrders/MyOrders";
 import DisplayError from "../../pages/shared/DisplayError/DisplayError";
 import AllUsers from "../../pages/Dashboard/AllUsers/AllUsers";
+import AdminRoute from "../AdminRoute/AdminRoute";
 
 export const router = createBrowserRouter([
     {
@@ -46,7 +47,7 @@ export const router = createBrowserRouter([
             },
             {
                 path:'/dashboard/allusers',
-                element: <AllUsers></AllUsers>
+                element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
             },
         ]
     }
